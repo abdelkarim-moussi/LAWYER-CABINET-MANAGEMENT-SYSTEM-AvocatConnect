@@ -1,102 +1,86 @@
 <?php
+ session_start();
 
-include_once("../dbconnection/dbconnec.php");
+function formValidation(){
+    
+    include "../dbconnection/dbconnec.php";
 
-if($_SERVER["REQUEST_METHOD"] === "POST"){
+    if ($_SERVER["REQUEST_METHOD"] === "POST"){
 
-    // initialize variables
-    $firstName;
-    $lasttName;
-    $email;
-    $image;
-    $role;
-    $password;
-    $confirmPassword;
-    $biography;
-    $speciality;
-    $experience;
-    $contactDetails;
+        // Get the form inputs using global POST variables
+        $firstName = trim($_POST["fname"]);
+        $lastName = trim($_POST["lname"]);
+        $email = trim($_POST["email"]);
+        $image = trim($_POST["image"]);
+        $role = trim($_POST["role"]);
+        $password = md5(trim($_POST["password"]));
+        $confirmPassword = md5(trim($_POST["confirm-password"]));
+        $phone = trim($_POST["phone"]);
 
-
-    if(isset($_POST["role"])){
         
+        // Validate inputs
+        $errors = [];
 
-        if($_POST["role"] === "lawyer"){
-            if(isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["phone"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["contact-details"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["speciality"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["contact-details"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["experience"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["contact-details"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["speciality"]) ){
-                if($_POST["password"] === $_POST["confirm-password"]){
-                    $firstName = $_POST["fname"];
-                    $lastName = $_POST["lname"];
-                    $email = $_POST["email"];
-                    $phone = $_POST["phone"];
-                    $image = $_POST["image"];
-                    $role = $_POST["role"];
-                    $password = $_POST["password"];
-                    $confirmPassword = $_POST["confirm-password"];
-                    $biography = $_POST["biography"];
-                    $speciality = $_POST["speciality"];
-                    $experience = $_POST["experience"];
-                    $contactDetails = $_POST["contact-details"];
-                
-                    
-                    $userstmt = mysqli_prepare($connect,"INSERT INTO users (firstname, lastname, email, phonenumber, password, image, role) VALUES(?,?,?,?,?,?,?)");
-                    $userstmt -> bind_param("sssssbs",$firstName,$lastName,$email,$phone,$password,$image,$role);
-                    $userstmt->execute();
-
-                    $lawyerstmt = mysqli_prepare($connect,"INSERT INTO lawyer_info (user_id,biography, years_of_experience, contact_details, speciality) VALUES(?,?,?,?,?)");
-                    // $lawyerstmt -> bind_param("isiss");
-                    $userstmt->execute();
-
-
-                }
-
-                
-
-            }
+        if (empty($firstName)) {
+            $errors[] = "First name is required.";
         }
-        else {
-            if(isset($_POST["fname"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["phone"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["contact-details"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["speciality"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["contact-details"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["experience"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["contact-details"]) && isset($_POST["lname"]) && isset($_POST["email"]) && isset($_POST["image"]) && isset($_POST["password"]) && isset($_POST["confirm-password"]) && isset($_POST["biography"]) && isset($_POST["speciality"]) ){
-                
-                if($_POST["password"] === $_POST["confirm-password"]){
+        if (empty($lastName)) {
+            $errors[] = "Last name is required.";
+        }
+        if (empty($email)) {
+            $errors[] = "Email is required.";
+        }
+        if (empty($phone)) {
+            $errors[] = "Phone number is required.";
+        }
+        if (empty($image)) {
+            $errors[] = "image is required.";
+        }
+        if ($password != $confirmPassword) {
+            $errors[] = "passwords not match";
+        }
 
-                $firstName = $_POST["fname"];
-                $lastName = $_POST["lname"];
-                $email = $_POST["email"];
-                $phone = $_POST["phone"];
-                $image = $_POST["image"];
-                $role = $_POST["role"];
-                $password = md5($_POST["password"]);
-                $confirmPassword = md5($_POST["confirm-password"]);
+        // stop execution if an error occurs
+        if (!empty($errors)) {
+            foreach ($errors as $error) {
+                echo $error . "<br>";
+            }
+            return; // Stop further processing if validation failed
+        }
+
+        // insert to database if validation success
+            $userstmt = mysqli_prepare($connect,"INSERT INTO users (firstname, lastname, email, phonenumber, password, image, role) VALUES(?,?,?,?,?,?,?)");
+            $userstmt -> bind_param("sssssbs",$firstName,$lastName,$email,$phone,$password,$image,$role);
+            $userstmt->execute();
+            //---stock the last added member in the session variable
+            $last_id = mysqli_insert_id($connect);
+             
+            echo "<script> alert('you reservation is success') </script>";
+            $userstmt->close();
             
-                $stmt = mysqli_prepare($connect,"INSERT INTO users (firstname, lastname, email, phonenumber, password, image, role) VALUES(?,?,?,?,?,?,?)");
+            //session variables
+            $_SESSION['username'] = $lastName." ".$firstName;
+            $_SESSION["email"] = $email;
+            $_SESSION["password"] = $password;
+            $_SESSION["userid"] = $last_id;
 
-                $stmt -> bind_param("sssssbs",$firstName,$lastName,$email,$phone,$password,$image,$role);
-                
-                $stmt->execute();
-
-                }
-
-            }
-        }
+        $firstName =  $lastName = $email = $phone = $role = $image = $password = $confirmPassword =  "";
+        
+        header("Location:signin.php");
 
     }
 }
 
+formValidation();
+
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AvocatConnect</title>
 
-    <!-- tailwindcss -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
+<?php include_once "../utilities/header.php" ?>
 
-
-<!-- <section class="bg-gray-50 dark:bg-gray-900 "> -->
+<!-- sign up form -->
+    <!-- <section class="bg-gray-50 dark:bg-gray-900 "> -->
   <div class="flex flex-col items-center justify-center px-6 mx-auto lg:py-0 my-10">
       <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -147,7 +131,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                     <input type="text" name="contact-details" id="contact-details" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="country , city , adress , phone number ">
                 </div>
                 <div class="hidden-fields hidden">
-                    <label for="contact-details" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">speciality</label>
+                    <label for="speciality" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">speciality</label>
                     <input type="text" name="speciality" id="speciality" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="biographie...">
                 </div>
                 <div class="flex gap-5">
@@ -170,14 +154,10 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
   </div>
 <!-- </section> -->
 
+</header>
 
 
 
-
-
-
-<script src="./assets/js/app.js"></script>
-
-
+<script src="./assets/js/app.js echo time(); ?>"></script>
 </body>
 </html>
