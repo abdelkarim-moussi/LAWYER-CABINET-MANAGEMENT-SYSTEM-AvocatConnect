@@ -158,6 +158,6 @@ formValidation();
 
 
 
-<script src="./assets/js/app.js echo time(); ?>"></script>
+<script src="./assets/js/app.js"></script>
 </body>
 </html>
