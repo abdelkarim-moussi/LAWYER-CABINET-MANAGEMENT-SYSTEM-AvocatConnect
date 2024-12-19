@@ -1,35 +1,49 @@
 <?php
+session_start();
 
 include_once "../dbconnection/dbconnec.php";
 include_once "../auth/auth.php";
 
+if(isAuthentified("lawyer")){
+    header("Location:../utilities/lawyer-dashboard.php");
+}
+else if(isAuthentified("client")){
+    header("Location:../utilities/client-dashboard.php");
+}
 
 $emailerror = "";
+$email = "";
+$password = "";
+$role = "";
 
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 
-if(!empty($_POST["email"]) && $_POST["password"]){
-
+if(!empty($_POST["email"]) && !empty($_POST["password"])){
 $email = $_POST["email"];
 $password = md5($_POST["password"]);
 
-$stm = mysqli_prepare($connect,"SELECT email, password FROM users WHERE email = ? and password = ?");
+$stm = mysqli_prepare($connect,"SELECT user_id, email, password,role FROM users WHERE email = ? and password = ?");
 $stm -> bind_param("ss",$email,$password);
 $stm->execute();
 
 $result = $stm->get_result();
 
-
 if($row = $result->fetch_assoc()){
 
     $db_pass = $row["password"];
     $db_email = $row["email"];
+    $_SESSION["role"] = $row["role"];
+    $_SESSION["user_id"] = $row["user_id"];
+    
+echo $_SESSION["user_id"];
 
     if($email === $db_email && $password === $db_pass){
+
         if(isAuthentified("lawyer")){
-            header("Location : ../utilities/lawyer-dashboard.ph");
+            header("Location: ../utilities/lawyer-dashboard.php");
         }
     }
+
 
 }
 }

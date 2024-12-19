@@ -3,6 +3,12 @@
 
  include_once "../auth/auth.php";
 
+if(isAuthentified("lawyer")){
+    header("Location:../utilities/lawyer-dashboard.php");
+}
+else if(isAuthentified("client")){
+    header("Location:../utilities/client-dashboard.php");
+}
  isAuthentified($_SESSION["role"]);
 
 function formValidation(){
