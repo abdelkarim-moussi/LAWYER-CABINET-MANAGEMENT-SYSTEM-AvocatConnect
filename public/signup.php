@@ -1,6 +1,10 @@
 <?php
  session_start();
 
+ include_once "../auth/auth.php";
+
+ isAuthentified($_SESSION["role"]);
+
 function formValidation(){
     
     include "../dbconnection/dbconnec.php";
@@ -79,6 +83,7 @@ function formValidation(){
             $_SESSION['username'] = $lastName." ".$firstName;
             $_SESSION["email"] = $email;
             $_SESSION["password"] = $password;
+            $_SESSION["role"] = $role;
             $_SESSION["userid"] = $last_id;
 
         if($role === "lawyer"){

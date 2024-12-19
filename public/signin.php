@@ -1,14 +1,8 @@
 <?php
 
-// if(isset($_SESSION["username"])){
-
-// header("Location:index.php");
-
-// }
-
-// header("Location:signup.php");
-
 include_once "../dbconnection/dbconnec.php";
+include_once "../auth/auth.php";
+
 
 $emailerror = "";
 
@@ -32,7 +26,9 @@ if($row = $result->fetch_assoc()){
     $db_email = $row["email"];
 
     if($email === $db_email && $password === $db_pass){
-        header("Location:index.php");
+        if(isAuthentified("lawyer")){
+            header("Location : ../utilities/lawyer-dashboard.ph");
+        }
     }
 
 }
