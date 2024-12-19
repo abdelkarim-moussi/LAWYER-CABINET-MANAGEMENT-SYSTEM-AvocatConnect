@@ -76,6 +76,6 @@ if($row = $result->fetch_assoc()){
     
 </header>
 
-<script src="../assets/js/app.js?v=<?php echo time(); ?>"></script>
+<script src="../public/assets/js/app.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
