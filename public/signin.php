@@ -59,6 +59,9 @@ else {
 
 }
 
+$stm -> close();
+$connect -> close();
+
 include_once "../utilities/header.php";
 ?>
 

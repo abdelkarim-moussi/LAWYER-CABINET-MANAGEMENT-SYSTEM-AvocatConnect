@@ -99,6 +99,7 @@ function formValidation(){
             $lawyerstmt->execute();
             //---stock the last added member in the session variable
             $lawyerstmt->close();
+            $connect -> close();
         }
         $firstName =  $lastName = $email = $phone = $role = $image = $password = $confirmPassword = $biography = $speciality = $contactDetails = $experience =  "";
         

@@ -5,7 +5,8 @@ include_once "../dbconnection/dbconnec.php";
 $sql = "SELECT * from users JOIN lawyer_info where users.user_id = lawyer_info.user_id";
 $result = mysqli_query($connect,$sql);
 
-
+$result -> close();
+$connect -> close();
 
 
  include_once "../utilities/header.php";
