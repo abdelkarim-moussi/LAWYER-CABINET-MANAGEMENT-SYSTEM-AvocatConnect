@@ -25,7 +25,7 @@ if(isset($_GET["id"])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css?v=<?php echo time(); ?>" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>AvocatConnect</title>
 </head>
-<body>
+<body class="relative">
     
 <div class="flex justify-center">
 <nav id="nav" class="flex z-20 items-center justify-around shadow-md shadow-green-600 text-white bg-black m-5 py-4 px-3 rounded-md fixed mx-10 top-0 w-full max-w-[900px]" >
@@ -93,11 +93,31 @@ if(isset($_GET["id"])){
         <p>biography : </p>
         <p class="font-semibold max-w-[600px]"><?php echo $row["biography"]; ?></p>
         </div>
-        <a href="#" class="rounded-md bg-green-600 hover:bg-green-700 text-white uppercase mx-auto px-6 py-2 my-4">book consultation</a>
+        <button type="button" id="booking-btn" class="rounded-md bg-green-600 hover:bg-green-700 text-white uppercase mx-auto px-6 py-2 my-4">book consultation</button>
    </div>
    <?php } ?>
 </section>
 
+
+<!-- date modal -->
+
+
+<!-- <div class="flex flex-col items-center justify-center px-6 mx-auto lg:py-0 my-10 w-full bg-red-500"> -->
+      <div id="date-modal" class="hidden w-full max-w-[400px] bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 absolute top-[30%] left-[50%] translate-x-[-50%]">
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 class="text-xl border-b pb-3 text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                  choose a date
+              </h1>
+            <form class="space-y-4 md:space-y-6" action="profile.php" method="post" id="signin-form">
+
+                <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">date</label>
+                <input type="date" name="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com">
+                <button type="submit" id="confirm-booking" class="w-full uppercase text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">confirm</button>
+                 
+            </form>
+          </div>
+      <!-- </div> -->
+  </div>
 
 
 <?php include_once "../utilities/footer.php" ?>

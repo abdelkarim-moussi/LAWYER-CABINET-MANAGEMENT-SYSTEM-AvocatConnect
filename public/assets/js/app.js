@@ -6,6 +6,17 @@ const navBar= document.getElementById("nav")
 const links = document.getElementById("links")
 const openmenu = document.getElementById("open")
 const closemenu = document.getElementById("close")
+
+const bookingBtn = document.getElementById("booking-btn");
+const dateModal = document.getElementById("date-modal");
+const confrirBtn = document.getElementById("confirm-booking")
+
+bookingBtn.addEventListener("click",()=>{
+    dateModal.classList.remove("hidden");
+})
+confrirBtn.addEventListener("click",()=>{
+    dateModal.classList.add("hidden");
+})
 //function to show hide and show specified inputs for the lawyer 
 console.log("menu",links);
 function showMenu (){
