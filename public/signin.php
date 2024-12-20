@@ -19,6 +19,7 @@ $role = "";
 if($_SERVER["REQUEST_METHOD"] === "POST"){
 
 if(!empty($_POST["email"]) && !empty($_POST["password"])){
+    
 $email = $_POST["email"];
 $password = md5($_POST["password"]);
 
@@ -28,34 +29,41 @@ $stm->execute();
 
 $result = $stm->get_result();
 
-if($row = $result->fetch_assoc()){
+if($row = $result->fetch_assoc()){    
+    if($email === $row["email"] && $password === $row["password"]){
 
-    $db_pass = $row["password"];
-    $db_email = $row["email"];
     $_SESSION["role"] = $row["role"];
     $_SESSION["user_id"] = $row["user_id"];
-    
-echo $_SESSION["user_id"];
 
-    if($email === $db_email && $password === $db_pass){
-
-        if(isAuthentified("lawyer")){
+    if($_SESSION["role"] === "lawyer"){
             header("Location: ../utilities/lawyer-dashboard.php");
-        }
+            exit;
+    }
+    else if($_SESSION["role"] === "client"){
+        header("Location: ../utilities/client-dashboard.php");
+        exit;
+    }
+    }
+    else {
+        $emailerror = "invalide email or password";
     }
 
-
+}
+else {
+    $emailerror = "invalide email or password";
 }
 }
-
+else {
+    $emailerror = "email and password field can't be empty";
+}
 
 }
 
+include_once "../utilities/header.php";
 ?>
 
 
 
-<?php include_once "../utilities/header.php"; ?>
 
    <!-- sign in form -->
    <div class="flex flex-col items-center justify-center px-6 mx-auto lg:py-0 my-10 w-full mt-[150px]">

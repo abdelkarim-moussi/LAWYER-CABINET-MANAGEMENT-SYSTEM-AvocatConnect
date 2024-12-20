@@ -9,7 +9,7 @@ if(isAuthentified("lawyer")){
 else if(isAuthentified("client")){
     header("Location:../utilities/client-dashboard.php");
 }
- isAuthentified($_SESSION["role"]);
+//  isAuthentified($_SESSION["role"]);
 
 function formValidation(){
     
@@ -114,10 +114,15 @@ formValidation();
 
 
 <?php include_once "../utilities/header.php" ?>
-
+<div class="my-auto flex flex-col items-center">
+<h1 class="text-white text-[3em] font-bold tracking-wider text-center uppercase max-w-[600px]">we will be happy to help you </h1>
+<p class="text-green-600 text-[2em] font-bold tracking-wider text-center uppercase max-w-[600px]">join us now </p>
+<!-- <a href="#" class="mt-3 text-md text-white uppercase tracking-wide font-semibold py-2 px-5 border border-2 border-green-600 hover:bg-green-600 rounded-md">Contact us</a> -->
+</div>
+</header>
 <!-- sign up form -->
-    <!-- <section class="bg-gray-50 dark:bg-gray-900 "> -->
-  <div class="flex flex-col items-center justify-center px-6 mx-auto lg:py-0 my-10 mt-[150px]">
+    <section class="bg-gray-50 dark:bg-gray-900 py-10">
+    <div class="flex flex-col items-center justify-center px-6 mx-auto lg:py-0">
       <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 class="text-xl border-b pb-3 text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -197,13 +202,8 @@ formValidation();
           </div>
       </div>
   </div>
-<!-- </section> -->
-
-</header>
+</section>
 
 
 
-<script src="./assets/js/app.js"></script>
-<script src="./assets/js/signup-Validation.js?v=<?php echo time(); ?>"></script>
-</body>
-</html>
+<?php include "../utilities/footer.php"; ?>
