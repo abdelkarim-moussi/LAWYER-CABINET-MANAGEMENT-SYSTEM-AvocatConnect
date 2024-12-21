@@ -5,11 +5,8 @@ include_once "../dbconnection/dbconnec.php";
 $sql = "SELECT * from users JOIN lawyer_info where users.user_id = lawyer_info.user_id";
 $result = mysqli_query($connect,$sql);
 
-$result -> close();
-$connect -> close();
 
-
- include_once "../utilities/header.php";
+include_once "../utilities/header.php";
 
 ?>
  <h1 class="text-white text-[3em] font-bold tracking-wider my-auto text-center uppercase max-w-[600px]">we recommend hight experienced lawyers</h1>
@@ -23,12 +20,12 @@ $connect -> close();
            <?php if(mysqli_num_rows($result) > 0){
             while($row = mysqli_fetch_assoc($result)){
             ?>
-            <div class="shadow-md rounded-md py-6 px-3 flex flex-col gap-3 justify-center items-center bg-black text-white">
+            <div class="shadow-md rounded-md py-6 px-3 flex flex-col gap-3 justify-center items-center bg-white text-black">
                 <img class="w-[100px] h-[100px] p-2 border rounded-full" src="<?php echo $row["image"] ?>" alt="lawyer image">
             <h3 class="text-md font-semibold tracking-wider text-green-600"><?php echo $row["firstname"].' '.$row["lastname"]; ?></h3 class="text-md fontsemibold">
             <p class="text-md"><?php echo $row["speciality"] ?></p>
             <p class="text-sm">with over <span class="text-green-600"><?php echo $row["years_of_experience"] ?></span> years in the domain</p>
-            <a href="./profile.php?id=<?php echo $row["user_id"] ?>" class="underline text-white tracking-wide uppercase">show profile</a>
+            <a href="./profile.php?id=<?php echo $row["user_id"] ?>" class="underline tracking-wide uppercase">show profile</a>
             </div>
            <?Php } } ?>
     </div>

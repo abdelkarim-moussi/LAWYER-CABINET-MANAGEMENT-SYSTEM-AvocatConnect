@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include_once "../../dbconnection/dbconnec.php";
 
 if(isset($_POST["date"]) && !empty($_POST["date"])){
@@ -32,6 +33,10 @@ if(isset($_SESSION["user_id"])){
         
     }
     
+}
+else{
+    echo "<script> alert('you have to login first')</script>";
+    header("Location: ../signin.php");
 }
 }
 

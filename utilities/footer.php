@@ -1,5 +1,3 @@
-
-
 <!-- footer -->
 
 <footer class="bg-gray-100 p-10 flex flex-col justify center gap-5 border-t border-gray-300">

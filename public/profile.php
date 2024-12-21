@@ -17,6 +17,7 @@ if(isset($_GET["id"])){
   $connect -> close();
   
  }
+ else header("Location: index.php");
 
 
 ?>

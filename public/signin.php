@@ -6,10 +6,13 @@ include_once "../auth/auth.php";
 
 if(isAuthentified("lawyer")){
     header("Location:../utilities/lawyer-dashboard.php");
+    exit;
 }
 else if(isAuthentified("client")){
     header("Location:../utilities/client-dashboard.php");
+    exit;
 }
+
 
 $emailerror = "";
 $email = "";
@@ -52,6 +55,7 @@ if($row = $result->fetch_assoc()){
 else {
     $emailerror = "invalide email or password";
 }
+$result -> close();
 }
 else {
     $emailerror = "email and password field can't be empty";
@@ -59,7 +63,6 @@ else {
 
 }
 
-$stm -> close();
 $connect -> close();
 
 include_once "../utilities/header.php";
@@ -86,7 +89,7 @@ include_once "../utilities/header.php";
                       <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   </div>
                   
-                  <button type="submit" id="signin" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Login</button>
+                  <button type="submit" id="signin" class="w-full uppercase tracking-wide text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Login</button>
                   <p class="text-sm text-center font-light text-gray-500 dark:text-gray-400">
                       don't have an account? <a href="signup.php" class="font-medium text-primary-600 hover:underline dark:text-primary-500">sign up here</a>
                   </p>

@@ -1,15 +1,17 @@
 <?php
-// session_start();
+session_start();
 include "../dbconnection/dbconnec.php";
-include "../auth/auth.php";
-$stmt = "SELECT * FROM users";
-$result = mysqli_query($connect,$stmt);
-if(mysqli_num_rows($result) > 0){
-    while($row = mysqli_fetch_assoc($result)){
-        // echo "firstname : " . $row["firstname"] . "  image : " .$row["image"] ."<br>";
-    }
+include_once "../auth/auth.php";
 
+if(!isAuthentified("lawyer")){
+    header("location: ../public/index.php");
 }
+
+$stmt = mysqli_prepare ($connect,"SELECT * FROM users WHERE user_id = ?");
+$stmt -> bind_param("i",$_SESSION["user_id"]);
+$stmt -> execute();
+$result = $stmt -> get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -24,25 +26,22 @@ if(mysqli_num_rows($result) > 0){
 </head>
 <body>
 
+<!-- navigation menu -->
 
 <div class="px-10 relative flex flex-col items-center align-center w-full">
     <nav id="nav" class="flex z-20 items-center justify-around shadow-md shadow-green-600 text-white bg-black m-5 py-4 px-3 rounded-md fixed mx-10 top-0 w-full max-w-[900px]" >
         <h2 class="uppercase text-lg font-semibold tracking-wide">Avocat<span class="lowercase text-green-600">Connect</span></h2>
         <ul class="flex gap-10 items-center" id="links">
-        <li class="cursor-pointer hover:text-green-600"><a href="../public/index.php">Home</a></li>
-            <?php if(session_id() != ""){ ?>
-                <li class="cursor-pointer hover:text-green-600"><a href="../public/lawyers.php">Lawyers</a></li>
-                <li class="underline cursor-pointer hover:text-green-600"><a href="../public/signin.php">Login</a></li>
-                <li class="border border-md border-green-600 px-5 py-1 hover:bg-green-600 hover:text-white cursor-pointer rounded-md"><a href="../public/signup.php">Sign up</a></li>
-                <?php }else { ?>
-                    <li class="underline cursor-pointer hover:text-green-600"><a href="../public/logout.php">logout</a></li>
-                <?php } ?>
+
+           <li class="cursor-pointer hover:text-green-600"><a href="../public/index.php">Home</a></li>
+           <li class="underline cursor-pointer hover:text-green-600"><a href="../public/logout.php">logout</a></li>
            
         </ul>
         <i id="open" class="cursor-pointer text-xl fa-solid fa-bars "></i>
         <i id="close" class="cursor-pointer text-xl fa-solid fa-xmark"></i>
     </nav>
 </div>
+<!-- ----------------------------- -->
 
 <main class="p-20 bg-black grid grid-cols-1 lg:grid-cols-3 gap-5 pt-40">
 <div class="lg:col-span-2">
@@ -94,6 +93,8 @@ if(mysqli_num_rows($result) > 0){
 
 </div>
 
+
+<!-- lawyer personnal info -->
 <div class="py-6 px-3 bg-gray-100 rounded-md flex flex-col gap-2">
     <img class="bg-green-600 p-1 w-[40px] h-[40px] rounded-md" src="../public/assets/img/user.png" alt="avatar">
     <h5>user name</h5>
@@ -124,6 +125,7 @@ if(mysqli_num_rows($result) > 0){
     
     
 </div>
+
 
 </main>
 

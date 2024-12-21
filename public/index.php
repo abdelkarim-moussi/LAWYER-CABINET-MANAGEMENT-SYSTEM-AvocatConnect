@@ -27,29 +27,29 @@ include_once "../utilities/header.php" ?>
 <section class="pb-12 pt-6 px-10">
     <h1 class="text-center text-3xl font-semibold uppercase py-6">What we can do for you ?</h1>
     <div class="grid grid-cols-2 lg:grid-cols-4 grid gap-5">
-        <div class="border border-green-600 px-3 py-4 flex flex-col items-center justify-center gap-3 rounded-md">
+        <div class="border border-green-600 px-3 py-6 flex flex-col items-center justify-center gap-3 rounded-md">
             <h4 class="font-bold uppercase">excutives & employees</h4>
-            <div class="w-[80px] h-[80px] bg-green-600 rounded-md p-2"><img src="../public/assets/img/process.png" alt=""></div>
+            <div class="w-[90px] h-[90px] border border-green-600 rounded-md p-2"><img src="../public/assets/img/process.png" alt=""></div>
         </div>
-        <div class="border border-green-600 px-3 py-4 flex flex-col items-center justify-center gap-3 rounded-md">
+        <div class="border border-green-600 px-3 py-6 flex flex-col items-center justify-center gap-3 rounded-md">
             <h4 class="font-bold uppercase">Sexual Harassment</h4>
-            <div class="w-[80px] h-[80px] bg-green-600 rounded-md p-2"><img src="../public/assets/img/sexual-harassment-icon.png" alt=""></div>
+            <div class="w-[90px] h-[90px] border border-green-600 rounded-md p-2"><img src="../public/assets/img/sexual-harassment-icon.png" alt=""></div>
         </div>
-        <div class="border border-green-600 px-3 py-4 flex flex-col items-center justify-center gap-3 rounded-md">
+        <div class="border border-green-600 px-3 py-6 flex flex-col items-center justify-center gap-3 rounded-md">
             <h4 class="font-bold uppercase">Equal Pay</h4>
-            <div class="w-[80px] h-[80px] bg-green-600 rounded-md p-2"><img src="../public/assets/img/equality.png" alt=""></div>
+            <div class="w-[90px] h-[90px] border border-green-600 rounded-md p-2"><img src="../public/assets/img/equality.png" alt=""></div>
         </div>
-        <div class="border border-green-600 px-3 py-4 flex flex-col items-center justify-center gap-3 rounded-md">
+        <div class="border border-green-600 px-3 py-6 flex flex-col items-center justify-center gap-3 rounded-md">
             <h4 class="font-bold uppercase">Litigation</h4>
-            <div class="w-[80px] h-[80px] bg-green-600 rounded-md p-2"><img src="../public/assets/img/litigation.png" alt=""></div>
+            <div class="w-[90px] h-[90px] border border-green-600 rounded-md p-2"><img src="../public/assets/img/litigation.png" alt=""></div>
         </div>
-        <div class="lg:col-start-2 border border-green-600 px-3 py-4 flex flex-col items-center justify-center gap-3 rounded-md">
+        <div class="lg:col-start-2 border border-green-600 px-3 py-6 flex flex-col items-center justify-center gap-3 rounded-md">
             <h4 class="font-bold uppercase">Employment Agreements</h4>
-            <div class="w-[80px] h-[80px] bg-green-600 rounded-md p-2"><img src="../public/assets/img/contract.png" alt=""></div>
+            <div class="w-[90px] h-[90px] border border-green-600 rounded-md p-2"><img src="../public/assets/img/contract.png" alt=""></div>
         </div>
-        <div class="border border-green-600 px-3 py-4 flex flex-col items-center justify-center gap-3 rounded-md">
+        <div class="border border-green-600 px-3 py-6 flex flex-col items-center justify-center gap-3 rounded-md">
             <h4 class="font-bold uppercase">Counseling</h4>
-            <div class="w-[80px] h-[80px] bg-green-600 rounded-md p-2"><img src="../public/assets/img/contract (1).png" alt=""></div>
+            <div class="w-[90px] h-[90px] border border-green-600 rounded-md p-2"><img src="../public/assets/img/contract (1).png" alt=""></div>
         </div>
     </div>
 </section>

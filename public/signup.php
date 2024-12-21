@@ -1,15 +1,17 @@
 <?php
  session_start();
 
- include_once "../auth/auth.php";
+include_once "../auth/auth.php";
 
-if(isAuthentified("lawyer")){
+ if(isAuthentified("lawyer")){
     header("Location:../utilities/lawyer-dashboard.php");
+    exit;
 }
 else if(isAuthentified("client")){
     header("Location:../utilities/client-dashboard.php");
+    exit;
 }
-//  isAuthentified($_SESSION["role"]);
+
 
 function formValidation(){
     
@@ -90,7 +92,7 @@ function formValidation(){
             $_SESSION["email"] = $email;
             $_SESSION["password"] = $password;
             $_SESSION["role"] = $role;
-            $_SESSION["userid"] = $last_id;
+            $_SESSION["user_id"] = $last_id;
 
         if($role === "lawyer"){
             echo $role;
@@ -195,7 +197,7 @@ formValidation();
                       <div class="error text-sm text-red-600"></div>
                     </div>
                 </div>
-                  <button type="submit" id="signup" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
+                  <button type="submit" id="signup" class="w-full uppercase tracking-wide text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign Up</button>
                   <p class="text-sm text-center font-light text-gray-500 dark:text-gray-400">
                       Already have an account? <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</a>
                   </p>
