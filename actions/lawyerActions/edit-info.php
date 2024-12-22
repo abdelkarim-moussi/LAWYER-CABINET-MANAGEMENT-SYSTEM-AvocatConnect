@@ -59,7 +59,7 @@ if(isset($_POST["edit-info"])){
                 $stmt -> execute();
             }
 
-            echo "<script>alert('your informations changed succesfully')</script>";
+            echo "<script>alert('your informations changed succesfully'); document.location.href = '../../utilities/{$_SESSION['role']}-dashboard.php'</script>";
             
         }
 

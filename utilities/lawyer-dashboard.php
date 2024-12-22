@@ -109,7 +109,42 @@ $result4 = $ref -> get_result();
     </div>
     <?php } ?>
 </section>
+<!-- disponibility -->
 
+<section class="p-5 rounded-md shadow-md bg-white my-5 flex flex-col gap-2">
+    <h1 class="text-lg tracking-wide">Disponibility :</h1>
+    <div class="flex gap-5">
+       <p>from : <span></span></p>
+       <p>To : <span></span></p>
+    </div>
+    <button id="edit-disponibility" class="px-4 py-1 bg-yellow-200 hover:bg-yellow-300 rounded-md w-[fit-content] font-semibold text-sm uppercase">Edit disponibility</button>
+</section>
+
+<!-- edit disponibility modal -->
+
+<div id="dispodate-modal" class="hidden z-10 p-6 space-y-4 md:space-y-6 sm:p-8 w-full md:max-w-[500px] mx-auto absolute top-[50%] left-[50%] translate-y-[-20%] translate-x-[-50%] bg-white shadow-md rounded-md">
+          <img src="../public/assets/img/fermer.png" alt="close" class="w-[30px] float-end cursor-pointer" id="close-dispo">
+              <h1 class="text-xl border-b pb-3 text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                  Update Your disponibility dates
+              </h1>
+            <form class="space-y-4 md:space-y-6" action="../actions/lawyerActions/edit-dispo.php" method="POST">
+                 <div class="flex gap-5">
+                  <div class="flex-1">
+                      <label for="startdate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start date</label>
+                      <input type="date" name="startdate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                  </div>
+                  <div class="flex-1">
+                      <label for="enddate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End date</label>
+                      <input type="date" name="enddate" value ="<?php echo $row1["lastname"]; ?>" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                  </div>
+                 </div>
+
+                <button type="submit" name="edit-dispo" class="w-full uppercase tracking-wide text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Continue</button>
+            </form>
+    </div>
+
+
+<!-- reservations table -->
 <section class="bg-white rounded-md shadow-md px-5 md:px-10 py-6 rounded-md">
     <h1 class="uppercase text-center font-semibold tracking-wide">your reservations</h1>
     
@@ -151,7 +186,7 @@ $result4 = $ref -> get_result();
 
 <!-- lawyer personnal info -->
 
-<div class="py-6 px-3 shadow-md bg-white rounded-md flex flex-col gap-2">
+<div class="relative py-6 px-3 shadow-md bg-white rounded-md flex flex-col gap-2">
     
     <img class="border border-green-600 p-1 w-[80px] h-[80px] rounded-md" src="../uploads/<?php echo $row1["image"];?>" alt="avatar">
     <h5><?php echo $row1["firstname"] .' '. $row1["lastname"]; ?></h5>
@@ -183,7 +218,7 @@ $result4 = $ref -> get_result();
         <span class="semibold"><?php echo $row1["biography"] ?></span>
     </div>
     
-    <button type="button" name="edit" value="edit" id ="edit" class="bg-yellow-200 text-sm hover:bg-yellow-300 py-1 px-4 rounded-md uppercase font-semibold self-center">Edit Profile</button>
+    <button type="button" name="edit" value="edit" id ="edit" class="bg-yellow-200 text-sm hover:bg-yellow-300 py-1 px-4 rounded-md uppercase font-semibold self-center absolute top-5 right-5">Edit Profile</button>
    
 </div>
 
@@ -254,16 +289,27 @@ $result4 = $ref -> get_result();
 
      const editModal = document.getElementById("edit-modal");
      const editBtn = document.getElementById("edit");
+
+    
      editBtn.addEventListener("click",()=>{
      editModal.classList.remove("hidden");
      })
 
      document.getElementById("close-modal").addEventListener("click",()=>{
-        editModal.classList.add("hidden")
+        editModal.classList.add("hidden");
      })
+    
+    const editDispoBtn = document.getElementById("edit-disponibility");
+    const editDispoModal = document.getElementById("dispodate-modal");
 
-
+    editDispoBtn.addEventListener("click",()=>{
+        editDispoModal.classList.remove("hidden");
+    })
+    document.getElementById("close-dispo").addEventListener("click",()=>{
+        editDispoModal.classList.add("hidden");
+    })
   </script>
+
 
 
 <script src="../public/assets/js/app.js?v=<?php echo time();?>"></script>

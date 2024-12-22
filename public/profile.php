@@ -4,6 +4,7 @@ session_start();
 include_once "../dbconnection/dbconnec.php";
 
 //show lawyer info with the id logic
+
 if(isset($_GET["id"])){
 
   $_SESSION["lawyer_id"] = $_GET["id"];
@@ -41,13 +42,12 @@ if(isset($_GET["id"])){
             $sql = $connect -> prepare("INSERT INTO reservations (user_id,reservation_date,lawyer_id) VALUES(?,?,?)");
             $sql -> bind_param("isi",$client_id,$date,$lawyer_id);
     
-            unset($_POST["date"]);
-    
             if($sql -> execute()){
                 
             }
             else echo "error".'<br>' .$sql->error;
-    
+            
+            unset($_POST["date"]);
             $sql -> close();
             $connect -> close();
             
