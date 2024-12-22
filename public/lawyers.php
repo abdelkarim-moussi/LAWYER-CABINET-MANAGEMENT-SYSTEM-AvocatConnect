@@ -33,7 +33,7 @@ include_once "../utilities/header.php";
             while($row = mysqli_fetch_assoc($result)){
             ?>
             <div class="shadow-md rounded-md py-6 px-3 flex flex-col gap-3 justify-center items-center bg-white text-black">
-                <img class="w-[100px] h-[100px] p-2 border rounded-full" src="<?php echo $row["image"] ?>" alt="lawyer image">
+                <img class="w-[100px] h-[100px] p-2 border rounded-full" src="../uploads/<?php echo $row["image"];?>" alt="lawyer image">
             <h3 class="text-md font-semibold tracking-wider text-green-600"><?php echo $row["firstname"].' '.$row["lastname"]; ?></h3 class="text-md fontsemibold">
             <p class="text-md"><?php echo $row["speciality"] ?></p>
             <p class="text-sm">with over <span class="text-green-600"><?php echo $row["years_of_experience"] ?></span> years in the domain</p>

@@ -46,6 +46,7 @@ $reservations = $allres -> get_result();
         <ul class="flex gap-10 items-center" id="links">
 
            <li class="cursor-pointer hover:text-green-600"><a href="../public/index.php">Home</a></li>
+           <li class="cursor-pointer hover:text-green-600"><a href="../public/lawyers.php">Lawyers</a></li>
            <li class="underline cursor-pointer hover:text-green-600"><a href="../public/logout.php">logout</a></li>
            
         </ul>
@@ -110,7 +111,7 @@ $reservations = $allres -> get_result();
 
 <div class="py-6 px-3 shadow-md rounded-md flex flex-col gap-2">
     
-    <img class="border border-green-600 p-1 w-[80px] h-[80px] rounded-md" src="../public/assets/img/user.png" alt="avatar">
+    <img class="border border-green-600 p-1 w-[80px] h-[80px] rounded-md" src="../uploads/<?php echo $row1["image"]; ?>" alt="avatar">
     <h5><?php echo $row1["firstname"] .' '. $row1["lastname"]; ?></h5>
     
     <div class="flex gap-4">
@@ -122,6 +123,9 @@ $reservations = $allres -> get_result();
         <p class="text-md font-semibold capitalize ">phone number : </p>
         <span class="semibold"><?php echo $row1["phonenumber"] ?></span>
     </div>
+
+    <!-- <a href="client-dashboard.php">Edit Profile</a> -->
+    <button type="button" name="edit" value="Edit">Edit Profile</button>
     
    
 </div>

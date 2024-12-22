@@ -23,7 +23,6 @@ function formValidation(){
         $firstName = trim($_POST["fname"]);
         $lastName = trim($_POST["lname"]);
         $email = trim($_POST["email"]);
-        $image = $_FILE["image"];
         $role = trim($_POST["role"]);
         $phone = trim($_POST["phone"]);
         $password = md5(trim($_POST["password"]));
@@ -33,6 +32,12 @@ function formValidation(){
         $speciality = trim($_POST["speciality"]);
         $experience = trim($_POST["experience"]);
         
+        //image file 
+        $filename = $_FILES["image"]["name"];
+        $fileTmpName = $_FILES["image"]["tmp_name"];
+        $newFileName = uniqid() ."-" .$filename;
+        move_uploaded_file($fileTmpName,"../uploads/".$newFileName);
+
         // Validate inputs
         $errors = [];
 
@@ -60,18 +65,18 @@ function formValidation(){
 
         // insert to database if validation success
             $userstmt = mysqli_prepare($connect,"INSERT INTO users (firstname, lastname, email, phonenumber, password, image, role) VALUES(?,?,?,?,?,?,?)");
-            $userstmt -> bind_param("sssssbs",$firstName,$lastName,$email,$phone,$password,$image,$role);
+            $userstmt -> bind_param("sssssss",$firstName,$lastName,$email,$phone,$password,$newFileName,$role);
             $userstmt->execute();
             //---stock the last added member in the session variable
             $last_id = mysqli_insert_id($connect);
              
-            echo "<script> alert('you reservation is success') </script>";
+            echo "<script> alert('you account is succefully created !') </script>";
             $userstmt->close();
             
             //session variables
     
-            $_SESSION["role"] = $role;
-            $_SESSION["user_id"] = $last_id;
+            // $_SESSION["role"] = $role;
+            // $_SESSION["user_id"] = $last_id;
 
         if($role === "lawyer"){
             $lawyerstmt = mysqli_prepare($connect,"INSERT INTO lawyer_info (user_id, biography, years_of_experience, contact_details, speciality) VALUES(?,?,?,?,?)");
@@ -106,7 +111,7 @@ formValidation();
               <h1 class="text-xl border-b pb-3 text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Create an account
               </h1>
-            <form class="space-y-4 md:space-y-6" action="signup.php" method="post" id="signup-form">
+            <form class="space-y-4 md:space-y-6" action="signup.php" method="post" id="signup-form" enctype="multipart/form-data">
                  <div class="flex gap-5">
                  <div class="flex-1">
                       <label for="fname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">first name</label>

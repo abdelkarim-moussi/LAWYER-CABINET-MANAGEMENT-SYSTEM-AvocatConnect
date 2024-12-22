@@ -44,7 +44,7 @@ if(isset($_GET["id"])){
             unset($_POST["date"]);
     
             if($sql -> execute()){
-                echo "done";
+                
             }
             else echo "error".'<br>' .$sql->error;
     
@@ -125,7 +125,7 @@ if(isset($_GET["id"])){
 <section class="py-10 px-10 mt-20">
     <?php while($row = $result -> fetch_assoc()){ ?>
    <div class="flex flex-col items-center gap-2 pb-5">
-       <img class="w-[150px] h-[150px] p-1 bg-green-600 rounded-full mx-auto" src="../public//assets/img/team2.jpg " alt="">
+       <img class="w-[150px] h-[150px] p-1 bg-green-600 rounded-full mx-auto" src="../uploads/<?php echo $row["image"]; ?> " alt="">
        <h3 class="text-md font-bold tracking-wide"><?php echo $row["firstname"].' '.$row["lastname"]; ?></h3>
        <p><?php echo $row["email"]; ?></p>
        <p><?php echo $row["contact_details"]; ?></p>

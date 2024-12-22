@@ -11,13 +11,8 @@ const bookingBtn = document.getElementById("booking-btn");
 const dateModal = document.getElementById("date-modal");
 const confirmBtn = document.getElementById("confirm-booking")
 
-bookingBtn.addEventListener("click",()=>{
-    dateModal.classList.remove("hidden");
-})
-confirmBtn.addEventListener("click",()=>{
-    dateModal.classList.add("hidden");
-})
-
+const editModal = document.getElementById("edit-modal");
+const editBtn = document.getElementById("edit");
 //show hide menu
 
 function showMenu (){
@@ -49,3 +44,18 @@ function checkRole(){
     }
 
 }
+
+bookingBtn.addEventListener("click",()=>{
+    dateModal.classList.remove("hidden");
+})
+confirmBtn.addEventListener("click",()=>{
+    dateModal.classList.add("hidden");
+})
+
+
+//edit profile form
+
+console.log(true);
+editBtn.addEventListener("click",()=>{
+  editModal.classList.remove("hidden");
+})
