@@ -113,30 +113,30 @@ $result4 = $ref -> get_result();
 <section class="bg-white rounded-md shadow-md px-5 md:px-10 py-6 rounded-md">
     <h1 class="uppercase text-center font-semibold tracking-wide">your reservations</h1>
     
-      <table class="mt-4 rounded-md border border-gray-400 rounded-md w-full text-left ">
+      <table class="mt-4 rounded-md w-full text-center shadow-md">
        
-        <tr class="border-b border-gray-400">
-            <th class="py-1 px-2">
+        <tr class="border-b">
+            <th class="py-2 px-5">
                 client name
             </th>
-            <th class="py-1 px-2">
+            <th class="py-2 px-5">
                 reservation date
             </th>
-            <th class="py-1 px-2">
+            <th class="py-2 px-5">
                 status
             </th>
-            <th class="py-1 px-2">
+            <th class="py-2 px-5">
                 actions
             </th>
 
         </tr>
        <?php if(mysqli_num_rows($reservations) > 0){
        foreach( $reservations as $row){ ?>
-        <tr class="border-b border-gray-400">
-            <td class="py-1 px-2"><?php echo $row["firstname"].' '.$row["lastname"]; ?></td>
-            <td class="py-1 px-2"><?php echo $row["reservation_date"] ;?></td>
-            <td class="py-1 px-2"><?php echo $row["status"] ;?></td>
-            <td class="py-1 px-2 flex gap-5">
+        <tr class="border-b">
+            <td class="py-2 px-5"><?php echo $row["firstname"].' '.$row["lastname"]; ?></td>
+            <td class="py-2 px-5"><?php echo $row["reservation_date"] ;?></td>
+            <td class="py-2 px-5"><?php echo $row["status"] ;?></td>
+            <td class="py-2 px-5 flex gap-5">
               <a class ="bg-green-50 rounded-md hover:bg-green-100 px-2" href="../actions/lawyerActions/accept.php?id=<?php echo $row["reservation_id"]; ?> " name="accept" class="px-2 rounded-md underline uppercase text-sm text-green-600">accept</a>
               <a class ="bg-orange-50 rounded-md hover:bg-orange-100 px-2" href="../actions/lawyerActions/refuse.php?id=<?php echo $row["reservation_id"]; ?>" class="px-2 rounded-md underline uppercase text-sm text-orange-600">refuse</a>
             </td>
@@ -183,32 +183,30 @@ $result4 = $ref -> get_result();
         <span class="semibold"><?php echo $row1["biography"] ?></span>
     </div>
     
-    <button type="button" name="edit" value="edit" id ="edit" class="bg-yellow-100 py-2 rounded-md uppercase font-semibold">Edit Profile</button>
+    <button type="button" name="edit" value="edit" id ="edit" class="bg-yellow-200 text-sm hover:bg-yellow-300 py-1 px-4 rounded-md uppercase font-semibold self-center">Edit Profile</button>
    
 </div>
-<?php } ?>
-</main>
 
-<!-- <div class="flex flex-col items-center justify-center px-6 mx-auto lg:py-0">
-      <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"> -->
-          <div id="edit-modal" class="hidden p-6 space-y-4 md:space-y-6 sm:p-8 w-full md:max-w-[500px] mx-auto absolute top-[50%] left-[50%] translate-y-[-20%] translate-x-[-50%] bg-white shadow-md rounded-md">
+    <!-- edit form -->
+    <div id="edit-modal" class="hidden z-10 p-6 space-y-4 md:space-y-6 sm:p-8 w-full md:max-w-[500px] mx-auto absolute top-[50%] left-[50%] translate-y-[-20%] translate-x-[-50%] bg-white shadow-md rounded-md">
+          <img src="../public/assets/img/fermer.png" alt="close" class="w-[30px] float-end cursor-pointer" id="close-modal">
               <h1 class="text-xl border-b pb-3 text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Update Your Informations
               </h1>
-            <form class="space-y-4 md:space-y-6" action="signup.php" method="post" enctype="multipart/form-data">
+            <form class="space-y-4 md:space-y-6" action="../actions/lawyerActions/edit-info.php" method="post" enctype="multipart/form-data">
                  <div class="flex gap-5">
-                 <div class="flex-1">
+                  <div class="flex-1">
                       <label for="fname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">first name</label>
-                      <input type="text" name="fname" id="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                      <input type="text" name="fname" value ="<?php echo $row1["firstname"]; ?>" id="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
                   </div>
                   <div class="flex-1">
                       <label for="lname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">last name</label>
-                      <input type="text" name="lname" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                      <input type="text" name="lname" value ="<?php echo $row1["lastname"]; ?>" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
                   </div>
                  </div>
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">email</label>
-                      <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com">
+                      <input type="email" name="email" value ="<?php echo $row1["email"]; ?>" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com">
                       <div class="error text-sm text-red-600"></div>
                   </div>
                 <div>
@@ -218,36 +216,54 @@ $result4 = $ref -> get_result();
                 </div>
                 <div>
                     <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">phone number</label>
-                    <input type="text" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                    <input type="text" name="phone" value ="<?php echo $row1["phonenumber"]; ?>" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
                     <div class="error text-sm text-red-600"></div>
                 </div>
                 <div>
                     <label for="biography" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">biography</label>
-                    <textarea name="biography" id="biography" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="biographie..."></textarea>
+                    <textarea name="biography" value ="<?php echo $row1["biography"]; ?>" id="biography" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="biographie..."></textarea>
                     <div class="error text-sm text-red-600"></div>
                 </div>
                 <div >
                     <label for="experience" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">years of experience</label>
-                    <input type="number" name="experience" id="experience" min="2" max ="40" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
+                    <input type="number" name="experience" value ="<?php echo $row1["years_of_experience"]; ?>" id="experience" min="2" max ="40" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="10">
                     <div class="error text-sm text-red-600"></div>
                 </div>
                 <div >
                     <label for="contact-details" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">contact details</label>
-                    <input type="text" name="contact-details" id="contact-details" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="country , city , adress , phone number ">
+                    <input type="text" name="contact-details" value ="<?php echo $row1["contact_details"]; ?>" id="contact-details" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="country , city , adress , phone number ">
                     <div class="error text-sm text-red-600"></div>
                 </div>
                 <div>
                     <label for="speciality" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">speciality</label>
-                    <input type="text" name="speciality" id="speciality" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="biographie...">
+                    <input type="text" name="speciality" value ="<?php echo $row1["speciality"]; ?>" id="speciality" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="harassement">
                     <div class="error text-sm text-red-600"></div>
                 </div>
 
-                  <button type="submit" id="sub" class="w-full uppercase tracking-wide text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Continue</button>
+                <button type="submit" name="edit-info" id="sub" class="w-full uppercase tracking-wide text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Continue</button>
             </form>
-          </div>
-      <!-- </div>
-  </div> -->
+    </div>
 
+    <?php } ?>
+</main>
+
+
+  <script>
+
+  //edit profile form
+
+     const editModal = document.getElementById("edit-modal");
+     const editBtn = document.getElementById("edit");
+     editBtn.addEventListener("click",()=>{
+     editModal.classList.remove("hidden");
+     })
+
+     document.getElementById("close-modal").addEventListener("click",()=>{
+        editModal.classList.add("hidden")
+     })
+
+
+  </script>
 
 
 <script src="../public/assets/js/app.js?v=<?php echo time();?>"></script>

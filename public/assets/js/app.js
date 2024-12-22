@@ -11,8 +11,6 @@ const bookingBtn = document.getElementById("booking-btn");
 const dateModal = document.getElementById("date-modal");
 const confirmBtn = document.getElementById("confirm-booking")
 
-const editModal = document.getElementById("edit-modal");
-const editBtn = document.getElementById("edit");
 //show hide menu
 
 function showMenu (){
@@ -53,9 +51,3 @@ confirmBtn.addEventListener("click",()=>{
 })
 
 
-//edit profile form
-
-console.log(true);
-editBtn.addEventListener("click",()=>{
-  editModal.classList.remove("hidden");
-})

@@ -37,7 +37,7 @@ include_once "../utilities/header.php";
             <h3 class="text-md font-semibold tracking-wider text-green-600"><?php echo $row["firstname"].' '.$row["lastname"]; ?></h3 class="text-md fontsemibold">
             <p class="text-md"><?php echo $row["speciality"] ?></p>
             <p class="text-sm">with over <span class="text-green-600"><?php echo $row["years_of_experience"] ?></span> years in the domain</p>
-            <a href="./profile.php?id=<?php echo $row["user_id"] ?>" class="underline tracking-wide uppercase">show profile</a>
+            <a href="./profile.php?id=<?php echo $row["user_id"] ?>" class="underline tracking-wide uppercase hover:text-green-600">show profile</a>
             </div>
            <?Php } } ?>
     </div>

@@ -36,7 +36,7 @@ $reservations = $allres -> get_result();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css?v=<?php echo time(); ?>" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>AvocatConnect</title>
 </head>
-<body>
+<body class="bg-gray-100">
 
 <!-- navigation menu -->
 
@@ -62,27 +62,28 @@ $reservations = $allres -> get_result();
 <h1 class="text-xl uppercase">Welcome <span class="text-green-600 lowercase"><?php echo $row1["firstname"] .' '. $row1["lastname"]; ?></span></h1>
 <p class="text-gray-600">welcome back to your AvocatConnect dashboard</p>
 
-<section class="bg-gray-100 px-10 py-6 rounded-md">
+
+<section class="px-5 bg-white shadow-md md:px-10 py-6 rounded-md mt-5">
     <h1 class="uppercase text-center font-semibold tracking-wide">your reservations</h1>
     
-      <table class="mt-4 rounded-md border border-gray-400 rounded-md w-full text-left ">
+      <table class="mt-4 bg-white rounded-md w-full text-center shadow-md">
        
-        <tr class="border-b border-gray-400">
-            <th class="py-1 px-2">
+        <tr class="border-b">
+            <th class="py-2 px-5">
                 lawyer name
             </th>
-            <th class="py-1 px-2">
+            <th class="py-2 px-5">
                 reservation date
             </th>
-            <th class="py-1 px-2">
+            <th class="py-2 px-5">
                 status
             </th>
 
         </tr>
        <?php if(mysqli_num_rows($reservations) > 0){
        foreach( $reservations as $row){ ?>
-        <tr class="border-b border-gray-400">
-            <td class="py-1 px-2"><?php 
+        <tr class="border-b">
+            <td class="py-2 px-5"><?php 
              $idl = $row["lawyer_id"];
              $stm = mysqli_prepare ($connect,"SELECT firstname , lastname from users WHERE user_id = ?");
              $stm -> bind_param("i",$idl);
@@ -96,8 +97,8 @@ $reservations = $allres -> get_result();
              }
 
             ?></td>
-            <td class="py-1 px-2"><?php echo $row["reservation_date"] ;?></td>
-            <td class="py-1 px-2"><?php echo $row["status"] ;?></td>
+            <td class="py-2 px-5"><?php echo $row["reservation_date"] ;?></td>
+            <td class="py-2 px-5"><?php echo $row["status"] ;?></td>
         </tr>
         <?php } }else echo "<p>Ops ! you haven't made any reservations yet !</p>" ?>
       </table>
@@ -109,7 +110,7 @@ $reservations = $allres -> get_result();
 
 <!-- lawyer personnal info -->
 
-<div class="py-6 px-3 shadow-md rounded-md flex flex-col gap-2">
+<div class="relative bg-white py-6 px-3 shadow-md rounded-md flex flex-col gap-2">
     
     <img class="border border-green-600 p-1 w-[80px] h-[80px] rounded-md" src="../uploads/<?php echo $row1["image"]; ?>" alt="avatar">
     <h5><?php echo $row1["firstname"] .' '. $row1["lastname"]; ?></h5>
@@ -124,14 +125,65 @@ $reservations = $allres -> get_result();
         <span class="semibold"><?php echo $row1["phonenumber"] ?></span>
     </div>
 
-    <!-- <a href="client-dashboard.php">Edit Profile</a> -->
-    <button type="button" name="edit" value="Edit">Edit Profile</button>
+    <button type="button" name="edit" value="edit" id ="edit" class="bg-yellow-200 text-sm hover:bg-yellow-300 py-1 px-4 rounded-md uppercase font-semibold self-center absolute top-5 right-5">Edit Profile</button>
     
-   
 </div>
+
+    <!-- edit form -->
+    <div id="edit-modal" class="hidden z-10 p-6 space-y-4 md:space-y-6 sm:p-8 w-full md:max-w-[500px] mx-auto absolute top-[50%] left-[50%] translate-y-[-30%] translate-x-[-50%] bg-white shadow-md rounded-md">
+          <img src="../public/assets/img/fermer.png" alt="close" class="w-[30px] float-end cursor-pointer" id="close-modal">
+              <h1 class="text-xl border-b pb-3 text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                  Update Your Informations
+              </h1>
+            <form class="space-y-4 md:space-y-6" action="../actions/lawyerActions/edit-info.php" method="post" enctype="multipart/form-data">
+                 <div class="flex gap-5">
+                  <div class="flex-1">
+                      <label for="fname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">first name</label>
+                      <input type="text" name="fname" value ="<?php echo $row1["firstname"]; ?>" id="fname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                  </div>
+                  <div class="flex-1">
+                      <label for="lname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">last name</label>
+                      <input type="text" name="lname" value ="<?php echo $row1["lastname"]; ?>" id="lname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                  </div>
+                 </div>
+                  <div>
+                      <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">email</label>
+                      <input type="email" name="email" value ="<?php echo $row1["email"]; ?>" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com">
+                      <div class="error text-sm text-red-600"></div>
+                  </div>
+                <div>
+                    <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">image</label>
+                    <input type="file" name="image" id="image" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                    <div class="error text-sm text-red-600"></div>
+                </div>
+                <div>
+                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">phone number</label>
+                    <input type="text" name="phone" value ="<?php echo $row1["phonenumber"]; ?>" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                    <div class="error text-sm text-red-600"></div>
+                </div>
+
+                <button type="submit" name="edit-info" id="sub" class="w-full uppercase tracking-wide text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Continue</button>
+            </form>
+    </div>
 <?php } ?>
 </main>
 
+
+<script>
+
+//edit profile form
+
+   const editModal = document.getElementById("edit-modal");
+   const editBtn = document.getElementById("edit");
+   editBtn.addEventListener("click",()=>{
+   editModal.classList.remove("hidden");
+   })
+
+   document.getElementById("close-modal").addEventListener("click",()=>{
+      editModal.classList.add("hidden")
+   })
+
+</script>
 
 <script src="../public/assets/js/app.js?v=<?php echo time(); ?>"></script>
 </body>
