@@ -1,5 +1,5 @@
 <?php
- session_start();
+include_once "../utilities/header.php";
 
 include_once "../auth/auth.php";
 
@@ -23,7 +23,7 @@ function formValidation(){
         $firstName = trim($_POST["fname"]);
         $lastName = trim($_POST["lname"]);
         $email = trim($_POST["email"]);
-        $image = trim($_POST["image"]);
+        $image = $_FILE["image"];
         $role = trim($_POST["role"]);
         $phone = trim($_POST["phone"]);
         $password = md5(trim($_POST["password"]));
@@ -45,34 +45,15 @@ function formValidation(){
         if (empty($email)) {
             $errors[] = "Email is required.";
         }
-        if (empty($phone)) {
-            $errors[] = "Phone number is required.";
-        }
-        if (empty($image)) {
-            $errors[] = "image is required.";
-        }
+
         if ($password != $confirmPassword) {
             $errors[] = "passwords not match";
         }
-        if($role === "lawyer"){
-            if (empty($biography)) {
-                $errors[] = "biography is required";
-            }
-            if (empty($speciality)) {
-                $errors[] = "speciality biography is required";
-            }
-            if (empty($experience)) {
-                $errors[] = "experience biography is required";
-            }
-            if (empty($contactDetails)) {
-                $errors[] = "contact details is required";
-            }
-    
-        }
+        
         // stop execution if an error occurs
         if (!empty($errors)) {
             foreach ($errors as $error) {
-                echo $error . "<br>";
+                echo "<script>alert({$error})</script>" . "<br>";
             }
             return; // Stop further processing if validation failed
         }
@@ -88,14 +69,11 @@ function formValidation(){
             $userstmt->close();
             
             //session variables
-            $_SESSION['username'] = $lastName." ".$firstName;
-            $_SESSION["email"] = $email;
-            $_SESSION["password"] = $password;
+    
             $_SESSION["role"] = $role;
             $_SESSION["user_id"] = $last_id;
 
         if($role === "lawyer"){
-            echo $role;
             $lawyerstmt = mysqli_prepare($connect,"INSERT INTO lawyer_info (user_id, biography, years_of_experience, contact_details, speciality) VALUES(?,?,?,?,?)");
             $lawyerstmt -> bind_param("isiss",$last_id,$biography,$experience,$contactDetails,$speciality);
             $lawyerstmt->execute();
@@ -105,18 +83,15 @@ function formValidation(){
         }
         $firstName =  $lastName = $email = $phone = $role = $image = $password = $confirmPassword = $biography = $speciality = $contactDetails = $experience =  "";
         
-        header("Location:signin.php");
+        // header("Location:signin.php");
 
     }
 }
 
 formValidation();
 
-
 ?>
 
-
-<?php include_once "../utilities/header.php" ?>
 <div class="my-auto flex flex-col items-center">
 <h1 class="text-white text-[3em] font-bold tracking-wider text-center uppercase max-w-[600px]">we will be happy to help you </h1>
 <p class="text-green-600 text-[2em] font-bold tracking-wider text-center uppercase max-w-[600px]">join us now </p>
@@ -160,7 +135,7 @@ formValidation();
 
                 <div>
                 <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">role</label>
-                <select name="role" id="role" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select name="role" id="role" onchange="checkRole()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="client">Client</option>
                     <option value="lawyer">Lawyer</option>
                 </select>
@@ -193,7 +168,7 @@ formValidation();
                     </div>
                   <div class="flex-1">
                       <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
-                      <input type="confirm-password" name="confirm-password" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                      <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                       <div class="error text-sm text-red-600"></div>
                     </div>
                 </div>

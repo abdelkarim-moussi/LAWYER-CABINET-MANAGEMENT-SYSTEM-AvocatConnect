@@ -11,6 +11,7 @@
    </div> 
    <span class="text-center text-sm text-gray-500">2024 copyrights</span>
 </footer>
+
 <script src="../public/assets/js/app.js?v=<?php echo time(); ?>"></script>
 <script src="./assets/js/signup-Validation.js?v=<?php echo time(); ?>"></script>
 </body>

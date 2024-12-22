@@ -7,10 +7,40 @@ if(!isAuthentified("lawyer")){
     header("location: ../public/index.php");
 }
 
-$stmt = mysqli_prepare ($connect,"SELECT * FROM users WHERE user_id = ?");
+$stmt = mysqli_prepare ($connect,"SELECT * FROM users INNER JOIN lawyer_info WHERE users.user_id = ?");
 $stmt -> bind_param("i",$_SESSION["user_id"]);
 $stmt -> execute();
 $result = $stmt -> get_result();
+
+//get totale number reservations
+$res = mysqli_prepare ($connect,"SELECT count(*) total FROM users INNER JOIN reservations INNER JOIN lawyer_info WHERE users.user_id = reservations.user_id and lawyer_info.user_id = ?");
+$res -> bind_param("i",$_SESSION["user_id"]);
+$res -> execute();
+$result1 = $res -> get_result();
+
+//reservations 
+$allres = mysqli_prepare ($connect,"SELECT * FROM users INNER JOIN reservations INNER JOIN lawyer_info WHERE users.user_id = reservations.user_id and lawyer_info.user_id = ? and reservations.status = 'pending'");
+$allres -> bind_param("i",$_SESSION["user_id"]);
+$allres -> execute();
+$reservations = $allres -> get_result();
+
+//get pending number reservations
+$pen = mysqli_prepare ($connect,"SELECT count(*) pending FROM users INNER JOIN reservations INNER JOIN lawyer_info WHERE users.user_id = reservations.user_id and lawyer_info.user_id = ? and reservations.status = 'pending'");
+$pen -> bind_param("i",$_SESSION["user_id"]);
+$pen -> execute();
+$result2 = $pen -> get_result();
+
+//get accepted reservations
+$acc = mysqli_prepare ($connect,"SELECT count(*) accept FROM users INNER JOIN reservations INNER JOIN lawyer_info WHERE users.user_id = reservations.user_id and lawyer_info.user_id = ? and reservations.status = 'accept'");
+$acc -> bind_param("i",$_SESSION["user_id"]);
+$acc -> execute();
+$result3 = $acc -> get_result();
+
+//get refused reservations
+$ref = mysqli_prepare ($connect,"SELECT count(*) refuse FROM users INNER JOIN reservations INNER JOIN lawyer_info WHERE users.user_id = reservations.user_id and lawyer_info.user_id = ? and reservations.status = 'refuse'");
+$ref -> bind_param("i",$_SESSION["user_id"]);
+$ref -> execute();
+$result4 = $ref -> get_result();
 
 ?>
 
@@ -29,7 +59,7 @@ $result = $stmt -> get_result();
 <!-- navigation menu -->
 
 <div class="px-10 relative flex flex-col items-center align-center w-full">
-    <nav id="nav" class="flex z-20 items-center justify-around shadow-md shadow-green-600 text-white bg-black m-5 py-4 px-3 rounded-md fixed mx-10 top-0 w-full max-w-[900px]" >
+    <nav id="nav" class="flex z-20 items-center justify-around shadow-md shadow-gray-600 text-white bg-black m-5 py-4 px-3 rounded-md fixed mx-10 top-0 w-full max-w-[900px]" >
         <h2 class="uppercase text-lg font-semibold tracking-wide">Avocat<span class="lowercase text-green-600">Connect</span></h2>
         <ul class="flex gap-10 items-center" id="links">
 
@@ -43,29 +73,44 @@ $result = $stmt -> get_result();
 </div>
 <!-- ----------------------------- -->
 
-<main class="p-20 bg-black grid grid-cols-1 lg:grid-cols-3 gap-5 pt-40">
+<main class="pt-40 lg:pt-36 lg:p-20 p-5 grid bg-gray-100 grid-cols-1 lg:grid-cols-3 gap-5">
+<?php if($row1 = $result->fetch_assoc()){ ?>
 <div class="lg:col-span-2">
-<h1 class="text-white text-xl uppercase">Welcome <span class="text-green-600 lowercase">username</span></h1>
-<p class="text-gray-200">welcome back to your AvocatConnect dashboard</p>
-<section class="grid grid-cols-2 lg:grid-cols-3 gap-10 my-10">
-    <div class="px-10 py-6 bg-white rounded-md shadow-sm shadow-orange-600">
-        <div class="w-[30px] h-[30px] bg-orange-600 rounded-md"></div>
-        <h1 class="text-2xl font-bold">12</h1>
+<h1 class="text-xl uppercase">Welcome <span class="text-green-600 lowercase"><?php echo $row1["firstname"] .' '. $row1["lastname"]; ?></span></h1>
+<p class="text-gray-600">welcome back to your AvocatConnect dashboard</p>
+
+<section class="grid grid-cols-2 lg:grid-cols-4 gap-5 my-10">
+<?php if($row = $result1->fetch_assoc()){ ?>
+    <div class="px-10 py-5 bg-white rounded-md shadow-sm shadow-orange-600">
+        <div class="w-[30px] h-[30px] bg-blue-600 rounded-md"></div>
+        <h1 class="text-2xl font-bold"><?php echo $row["total"]; ?></h1>
         <h3>total reservations</h3>
     </div>
-    <div class="px-10 py-6 bg-white rounded-md shadow-sm shadow-green-600">
+    <?php } ?>
+    <?php if($row = $result2->fetch_assoc()){ ?>
+    <div class="px-10 py-5 bg-white rounded-md shadow-sm shadow-orange-600">
+        <div class="w-[30px] h-[30px] bg-orange-600 rounded-md"></div>
+        <h1 class="text-2xl font-bold"><?php echo $row["pending"]; ?></h1>
+        <h3>pending reservations</h3>
+    </div>
+    <?php } ?>
+    <?php if($row = $result3->fetch_assoc()){ ?>
+    <div class="px-10 py-5 bg-white rounded-md shadow-sm shadow-green-600">
         <div class="w-[30px] h-[30px] bg-green-600 rounded-md"></div>
-        <h1 class="text-2xl font-bold">8</h1>
+        <h1 class="text-2xl font-bold"><?php echo $row["accept"]; ?></h1>
         <h3>accepted reservations</h3>
     </div>
-    <div class="px-10 py-6 bg-white rounded-md shadow-sm shadow-red-600">
+    <?php } ?>
+    <?php if($row = $result4->fetch_assoc()){ ?>
+    <div class="px-10 py-5 bg-white rounded-md shadow-sm shadow-red-600">
         <div class="w-[30px] h-[30px] bg-red-600 rounded-md"></div>
-        <h1 class="text-2xl font-bold">4</h1>
+        <h1 class="text-2xl font-bold"><?php echo $row["refuse"]; ?></h1>
         <h3>refused reservations</h3>
     </div>
+    <?php } ?>
 </section>
 
-<section class="bg-gray-100 px-10 py-6 rounded-md">
+<section class="bg-white rounded-md shadow-md px-5 md:px-10 py-6 rounded-md">
     <h1 class="uppercase text-center font-semibold tracking-wide">your reservations</h1>
     
       <table class="mt-4 rounded-md border border-gray-400 rounded-md w-full text-left ">
@@ -74,59 +119,73 @@ $result = $stmt -> get_result();
             <th class="py-1 px-2">
                 client name
             </th>
-            <th>
+            <th class="py-1 px-2">
                 reservation date
             </th>
-            <th>
+            <th class="py-1 px-2">
                 status
             </th>
+            <th class="py-1 px-2">
+                actions
+            </th>
+
         </tr>
-   
+       <?php if(mysqli_num_rows($reservations) > 0){
+       foreach( $reservations as $row){ ?>
         <tr class="border-b border-gray-400">
-            <td class="py-1 px-2">Jhon</td>
-            <td>12/23/2024</td>
-            <td>refused</td>
+            <td class="py-1 px-2"><?php echo $row["firstname"].' '.$row["lastname"]; ?></td>
+            <td class="py-1 px-2"><?php echo $row["reservation_date"] ;?></td>
+            <td class="py-1 px-2"><?php echo $row["status"] ;?></td>
+            <td class="py-1 px-2">
+              <a class ="bg-green-50 rouded-md" href="../actions/lawyerActions/accept.php?id=<?php echo $row["reservation_id"]; ?> " name="accept" class="px-2 rounded-md underline uppercase text-sm text-green-600">accept</a>
+              <a class ="bg-orange-50 rounded-md" href="../actions/lawyerActions/refuse.php?id=<?php echo $row["reservation_id"]; ?>" class="px-2 rounded-md underline uppercase text-sm text-orange-600">refuse</a>
+            </td>
         </tr>
-   
+        <?php } }else echo "<p>Ops ! no pending reservations !</p>" ?>
       </table>
+     
 </section>
 
 </div>
 
 
 <!-- lawyer personnal info -->
-<div class="py-6 px-3 bg-gray-100 rounded-md flex flex-col gap-2">
-    <img class="bg-green-600 p-1 w-[40px] h-[40px] rounded-md" src="../public/assets/img/user.png" alt="avatar">
-    <h5>user name</h5>
+
+<div class="py-6 px-3 shadow-md bg-white rounded-md flex flex-col gap-2">
+    
+    <img class="border border-green-600 p-1 w-[80px] h-[80px] rounded-md" src="../public/assets/img/user.png" alt="avatar">
+    <h5><?php echo $row1["firstname"] .' '. $row1["lastname"]; ?></h5>
+    
     <div class="flex gap-4">
-        <p class="text-md text-green-600 font-semibold capitalize ">speciality : </p>
-        <span class="semibold">My speciality</span>
+        <p class="text-md font-semibold capitalize ">email : </p>
+        <span class="semibold"><?php echo $row1["email"]; ?></span>
+    </div>
+
+    <div class="flex gap-4">
+        <p class="text-md font-semibold capitalize ">speciality : </p>
+        <span class="semibold"><?php echo $row1["speciality"]; ?></span>
+    </div>
+    
+    <div class="flex gap-4">
+        <p class="text-md font-semibold capitalize ">phone number : </p>
+        <span class="semibold"><?php echo $row1["phonenumber"] ?></span>
     </div>
     <div class="flex gap-4">
-        <p class="text-md text-green-600 font-semibold capitalize ">email : </p>
-        <span class="semibold">example@gmail.com</span>
+        <p class="text-md font-semibold capitalize ">contact details : </p>
+        <span class="semibold"><?php echo $row1["contact_details"] ?></span>
     </div>
     <div class="flex gap-4">
-        <p class="text-md text-green-600 font-semibold capitalize ">phone number : </p>
-        <span class="semibold">+212 681972108</span>
-    </div>
-    <div class="flex gap-4">
-        <p class="text-md text-green-600 font-semibold capitalize ">email : </p>
-        <span class="semibold">example@gmail.com</span>
-    </div>
-    <div class="flex gap-4">
-        <p class="text-md text-green-600 font-semibold capitalize ">years of experience : </p>
-        <span class="semibold">10 years</span>
+        <p class="text-md font-semibold capitalize ">years of experience : </p>
+        <span class="semibold"><?php echo $row1["years_of_experience"] ?> years</span>
     </div>
     <div class="flex flex-col gap-1">
-        <p class="text-md text-green-600 font-semibold capitalize ">biography : </p>
-        <span class="semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum esse officiis ratione molestiae ipsa ad.</span>
+        <p class="text-md font-semibold capitalize ">biography : </p>
+        <span class="semibold"><?php echo $row1["biography"] ?>.</span>
     </div>
     
-    
+   
 </div>
-
-
+<?php } ?>
 </main>
 
 

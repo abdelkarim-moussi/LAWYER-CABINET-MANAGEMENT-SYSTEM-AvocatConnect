@@ -3,6 +3,7 @@ session_start();
 
 include_once "../dbconnection/dbconnec.php";
 
+//show lawyer info with the id logic
 if(isset($_GET["id"])){
 
   $_SESSION["lawyer_id"] = $_GET["id"];
@@ -19,6 +20,44 @@ if(isset($_GET["id"])){
  }
  else header("Location: index.php");
 
+
+// book reservation logic
+
+ if(isset($_POST["date"]) && !empty($_POST["date"])){
+
+    $_SESSION["reservation_date"] = $_POST["date"];
+    
+    if(isset($_SESSION["user_id"])){
+    
+        if(isset($_SESSION["reservation_date"])){
+    
+            $date_input = strtotime($_SESSION["reservation_date"]);
+            $date = date('y-m-d',$date_input);
+            $client_id = $_SESSION["user_id"];
+            $lawyer_id = $_SESSION["lawyer_id"];
+    
+            echo  "$date <br> $client_id<br>$lawyer_id";
+    
+            $sql = $connect -> prepare("INSERT INTO reservations (user_id,reservation_date,lawyer_id) VALUES(?,?,?)");
+            $sql -> bind_param("isi",$client_id,$date,$lawyer_id);
+    
+            unset($_POST["date"]);
+    
+            if($sql -> execute()){
+                echo "done";
+            }
+            else echo "error".'<br>' .$sql->error;
+    
+            $sql -> close();
+            $connect -> close();
+            
+        }
+        
+    }
+    else{
+        header("Location: ../signin.php");
+    }
+    }
 
 ?>
 
@@ -115,7 +154,7 @@ if(isset($_GET["id"])){
               <h1 class="text-xl border-b pb-3 text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   choose a date
               </h1>
-            <form class="space-y-4 md:space-y-6" action="../public/client-actions/bookReservation.php" method="post" id="signin-form">
+            <form class="space-y-4 md:space-y-6" action="profile.php" method="post" id="signin-form">
 
                 <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">date</label>
                 <input type="date" name="date" id="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com">

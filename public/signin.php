@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once "../utilities/header.php";
 
 include_once "../dbconnection/dbconnec.php";
 include_once "../auth/auth.php";
@@ -65,7 +65,7 @@ else {
 
 $connect -> close();
 
-include_once "../utilities/header.php";
+
 ?>
 
 

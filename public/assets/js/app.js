@@ -9,16 +9,17 @@ const closemenu = document.getElementById("close")
 
 const bookingBtn = document.getElementById("booking-btn");
 const dateModal = document.getElementById("date-modal");
-const confrirBtn = document.getElementById("confirm-booking")
+const confirmBtn = document.getElementById("confirm-booking")
 
 bookingBtn.addEventListener("click",()=>{
     dateModal.classList.remove("hidden");
 })
-confrirBtn.addEventListener("click",()=>{
+confirmBtn.addEventListener("click",()=>{
     dateModal.classList.add("hidden");
 })
-//function to show hide and show specified inputs for the lawyer 
-console.log("menu",links);
+
+//show hide menu
+
 function showMenu (){
     links.style.top = "11vh";
     openmenu.style.display = "none";
@@ -34,8 +35,10 @@ function hideMenu (){
 }
 closemenu.addEventListener("click",hideMenu)
 
+
+//function to show hide and show specified inputs for the lawyer 
+
 function checkRole(){
-role.addEventListener("change",()=>{
 
     for(let i = 0; i < lawyerFields.length ; i++){
     if(role.value === "lawyer"){
@@ -44,9 +47,5 @@ role.addEventListener("change",()=>{
     else lawyerFields[i].classList.add("hidden");
         
     }
-    
-}
-)
-}
 
-document.addEventListener("DOMContentLoaded", checkRole);
+}

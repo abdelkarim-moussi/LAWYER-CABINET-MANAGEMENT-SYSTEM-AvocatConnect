@@ -1,9 +1,21 @@
 <?php
 
 include_once "../dbconnection/dbconnec.php";
+include_once "../auth/auth.php";
+
+if(isAuthentified("lawyer")){
+    header("Location:../utilities/lawyer-dashboard.php");
+}
+// else if(isAuthentified("client")){
+//     header("Location:../utilities/client-dashboard.php");
+// }
+// else header("Location:../public/index.php");
+
+
 
 $sql = "SELECT * from users JOIN lawyer_info where users.user_id = lawyer_info.user_id";
 $result = mysqli_query($connect,$sql);
+
 
 
 include_once "../utilities/header.php";
@@ -16,7 +28,7 @@ include_once "../utilities/header.php";
 
 <section class="bg-gray-100 pb-6">
     <h1 class="text-center text-3xl font-semibold uppercase py-6">Explore our trusted lawyers</h1>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 py-6 px-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-6 px-10">
            <?php if(mysqli_num_rows($result) > 0){
             while($row = mysqli_fetch_assoc($result)){
             ?>

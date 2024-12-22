@@ -1,3 +1,6 @@
+<?php
+   session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +15,7 @@
 
 
 <header class="px-10 relative flex flex-col items-center align-center w-full">
-    <nav id="nav" class="flex z-20 items-center justify-around shadow-md shadow-green-600 text-white bg-black m-5 py-4 px-3 rounded-md fixed mx-10 top-0 w-full max-w-[900px]" >
+    <nav id="nav" class="flex z-20 items-center justify-around shadow-md shadow-gray-600 text-white bg-black m-5 py-4 px-3 rounded-md fixed mx-10 top-0 w-full max-w-[900px]" >
         <h2 class="uppercase text-lg font-semibold tracking-wide">Avocat<span class="lowercase text-green-600">Connect</span></h2>
        <ul class="flex gap-10 items-center" id="links">
     <li class="cursor-pointer hover:text-green-600">
@@ -30,7 +33,8 @@
         <li class="border border-md border-green-600 px-5 py-1 hover:bg-green-600 hover:text-white cursor-pointer rounded-md">
             <a href="../public/signup.php">Sign up</a>
         </li>
-    <?php } else { ?>
+    <?php } else { 
+        if(isset($_SESSION["user_id"])) { ?>
         <!-- Links for logged-in users -->
         <?php if (isset($_SESSION["role"])) { ?>
             <?php if ($_SESSION["role"] === "lawyer") { ?>
@@ -49,9 +53,8 @@
         <li class="underline cursor-pointer hover:text-green-600">
             <a href="../public/logout.php">Logout</a>
         </li>
-    <?php } ?>
+    <?php } } ?>
     </ul>
-
         <i id="open" class="cursor-pointer text-xl fa-solid fa-bars "></i>
         <i id="close" class="cursor-pointer text-xl fa-solid fa-xmark"></i>
     </nav>
